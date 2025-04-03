@@ -15,10 +15,10 @@ import java.util.Random;
 import static java.lang.Integer.parseInt;
 
 public class HelloApplication extends Application {
-    private int TL;
+    private int TL, posAux;
     AnchorPane pane;
     private Button[] vet;
-    Button botao_inicio, dist, pos, gap;
+    Button botao_inicio, auxBt, clone = null, dist, pos, gap;
     private Text[] indice;
 
     public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class HelloApplication extends Application {
             pane.getChildren().add(indice[i]);
         }
 
-        for (int i = 0; i < TL; i++) {
+        /*for (int i = 0; i < TL; i++) {
             double buttonX = 50 * (i + 1);
             vet[i] = new Button("" + aleatorio.nextInt(i, 30));
             vet[i].setMinWidth(40);
@@ -53,7 +53,96 @@ public class HelloApplication extends Application {
             vet[i].setLayoutX(buttonX);
             vet[i].setLayoutY(200);
             pane.getChildren().add(vet[i]);
-        }
+        }*/
+        double buttonX = 50 * (0 + 1);
+        vet[0] = new Button("" + 10);
+        vet[0].setMinWidth(40);
+        vet[0].setMinHeight(40);
+        vet[0].setFont(new Font(14));
+        vet[0].setLayoutX(buttonX);
+        vet[0].setLayoutY(200);
+        pane.getChildren().add(vet[0]);
+
+        buttonX = 50 * (1 + 1);
+        vet[1] = new Button("" + 3);
+        vet[1].setMinWidth(40);
+        vet[1].setMinHeight(40);
+        vet[1].setFont(new Font(14));
+        vet[1].setLayoutX(buttonX);
+        vet[1].setLayoutY(200);
+        pane.getChildren().add(vet[1]);
+
+        buttonX = 50 * (2 + 1);
+        vet[2] = new Button("" + 5);
+        vet[2].setMinWidth(40);
+        vet[2].setMinHeight(40);
+        vet[2].setFont(new Font(14));
+        vet[2].setLayoutX(buttonX);
+        vet[2].setLayoutY(200);
+        pane.getChildren().add(vet[2]);
+
+        buttonX = 50 * (3 + 1);
+        vet[3] = new Button("" + 2);
+        vet[3].setMinWidth(40);
+        vet[3].setMinHeight(40);
+        vet[3].setFont(new Font(14));
+        vet[3].setLayoutX(buttonX);
+        vet[3].setLayoutY(200);
+        pane.getChildren().add(vet[3]);
+
+        buttonX = 50 * (4 + 1);
+        vet[4] = new Button("" + 1);
+        vet[4].setMinWidth(40);
+        vet[4].setMinHeight(40);
+        vet[4].setFont(new Font(14));
+        vet[4].setLayoutX(buttonX);
+        vet[4].setLayoutY(200);
+        pane.getChildren().add(vet[4]);
+
+        buttonX = 50 * (5 + 1);
+        vet[5] = new Button("" + 7);
+        vet[5].setMinWidth(40);
+        vet[5].setMinHeight(40);
+        vet[5].setFont(new Font(14));
+        vet[5].setLayoutX(buttonX);
+        vet[5].setLayoutY(200);
+        pane.getChildren().add(vet[5]);
+
+        buttonX = 50 * (6 + 1);
+        vet[6] = new Button("" + 6);
+        vet[6].setMinWidth(40);
+        vet[6].setMinHeight(40);
+        vet[6].setFont(new Font(14));
+        vet[6].setLayoutX(buttonX);
+        vet[6].setLayoutY(200);
+        pane.getChildren().add(vet[6]);
+
+        buttonX = 50 * (7 + 1);
+        vet[7] = new Button("" + 8);
+        vet[7].setMinWidth(40);
+        vet[7].setMinHeight(40);
+        vet[7].setFont(new Font(14));
+        vet[7].setLayoutX(buttonX);
+        vet[7].setLayoutY(200);
+        pane.getChildren().add(vet[7]);
+
+        buttonX = 50 * (8 + 1);
+        vet[8] = new Button("" + 9);
+        vet[8].setMinWidth(40);
+        vet[8].setMinHeight(40);
+        vet[8].setFont(new Font(14));
+        vet[8].setLayoutX(buttonX);
+        vet[8].setLayoutY(200);
+        pane.getChildren().add(vet[8]);
+
+        buttonX = 50 * (9 + 1);
+        vet[9] = new Button("" + 4);
+        vet[9].setMinWidth(40);
+        vet[9].setMinHeight(40);
+        vet[9].setFont(new Font(14));
+        vet[9].setLayoutX(buttonX);
+        vet[9].setLayoutY(200);
+        pane.getChildren().add(vet[9]);
     }
 
     @Override
@@ -61,8 +150,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Pesquisa e Ordenacao");
         pane = new AnchorPane();
         pane.setStyle("-fx-background-color: #3d3d3f");
-        gerarBotoes(15);
-        TL = 15;
+        gerarBotoes(10);
+        TL = 10;
         botao_inicio = new Button();
         botao_inicio.setLayoutX(10);
         botao_inicio.setLayoutY(100);
@@ -116,84 +205,155 @@ public class HelloApplication extends Application {
                 vet[1] = aux;
                 return null;*/
             }
-            public void shellSort() throws InterruptedException {
-                int dist = 1, aux, pos;
-                while(dist < TL)
-                    dist *= 2 + 1;
-                dist = dist/2;
+            // ESTA DANDO ERRO NA HORA QUE ELE TEM QUE TROCAR O POS DIST ANDA E TROCA COM OUTRO
+            public void shellSort() {
+                int dist = 1, indiAux, aux, pos;
+                while (dist < TL) {
+                    dist = dist * 2 + 1;
+                }
+                dist = dist / 2;
                 while(dist > 0) {
                     for (int i = dist; i < TL; i++) {
                         aux = parseInt(vet[i].getText());
                         pos = i;
-                        criarButtonAux(i, vet[i]);
-                        marcaPos(pos);
-                        marcaPosDist(pos-dist);
-                        Thread.sleep(5000);
+                        posAux = i;
+                        marcarAux(pos);
+                        boolean flag = false;
                         while(pos >= dist && aux < parseInt(vet[pos-dist].getText())) {
-                            marcaPos(pos);
-                            marcaPosDist(pos-dist);
-                            trocaButton(pos, dist);
-                            pos = pos - dist;
-                            Thread.sleep(1000);
+                                marcarPosDist(pos-dist);
+                                posAux = movimentarParaPos(pos-dist, pos, flag);
+                                desmarcaPosDist(pos-dist);
+                                pos = pos-dist;
+                                flag = true;
                         }
+                        colocaAux(posAux);
                     }
+                    dist = dist/2;
                 }
             }
 
-            public void criarButtonAux(int pos, Button btn) {
-                Button aux = new Button(btn.getText());
-                aux.setMinWidth(40);
-                aux.setMinHeight(40);
-                aux.setLayoutY(btn.getLayoutY());
-                aux.setLayoutX(btn.getLayoutX());
-                pane.getChildren().add(aux);
-                marcaButtonAux(aux);
-                moverAux(aux);
+            public void desmarcaPosDist(int posDist) {
+                vet[posDist].setStyle("-fx-background-color: #c5c3c3");
             }
 
-            public void moverAux(Button aux) {
-                for (int i = 0; i < 10; i++) {
-                    Platform.runLater(() -> {
-                        aux.setLayoutY(aux.getLayoutY() - 10);
-                    });
-                    try {
-                        Thread.sleep(500);
+            public void colocaAux(int posAux) {
+                int tam = (int)auxBt.getLayoutY();
+                for (int i = (int)auxBt.getLayoutY(); i < tam + 100; i++) {
+                    auxBt.setLayoutY(i);
+                    sleep();
+                }
+                if(clone!= null) {
+                    tam = (int) clone.getLayoutX();
+                    for (int i = (int) auxBt.getLayoutX(); i > tam; i--) {
+                        auxBt.setLayoutX(i);
+                        sleep();
                     }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
+                    tam = (int) clone.getLayoutY();
+                    for (int i = (int) auxBt.getLayoutY(); i < tam; i++) {
+                        auxBt.setLayoutY(i);
+                        sleep();
                     }
+                    removeClone();
+                }
+                else {
+                    tam = (int)auxBt.getLayoutY();
+                    for (int i = (int)auxBt.getLayoutY(); i < (int)vet[posAux].getLayoutY(); i++) {
+                        auxBt.setLayoutY(i);
+                        sleep();
+                    }
+                }
+                desmarcaAux();
+                vet[posAux] = auxBt;
+                auxBt = null;
+            }
+
+            public void desmarcaAux() {
+                auxBt.setStyle("-fx-background-color: #c5c3c3");
+            }
+
+            public int movimentarParaPos(int posDist, int pos, boolean flag) {
+                int tam = (int)vet[posDist].getLayoutY();
+                int x = (int)vet[posDist].getLayoutX();
+                int y = (int)vet[posDist].getLayoutY();
+                criaClone(x, y, vet[posDist].getText());
+                for (int i = (int)vet[posDist].getLayoutY(); i > tam-80; i--) {
+                    vet[posDist].setLayoutY(i);
+                    sleep();
+                }
+                for (int i = (int)vet[posDist].getLayoutX(); i < (int)vet[pos].getLayoutX(); i++) {
+                    vet[posDist].setLayoutX(i);
+                    sleep();
+                }
+                tam = (int)vet[posDist].getLayoutY();
+                for (int i = (int)vet[posDist].getLayoutY(); i < tam+80; i++) {
+                    vet[posDist].setLayoutY(i);
+                    sleep();
+                }
+                if(!flag) {
+                    vet[pos] = vet[posDist];
+                    posAux = posDist;
+                }
+                else {
+                    Button aux = vet[posDist];
+                    vet[posDist] = vet[pos];
+                    vet[pos] = aux;
+                    posAux = posDist;
+                }
+                return posAux;
+            }
+
+            public void removeClone() {
+                Platform.runLater(() -> {
+                    pane.getChildren().remove(clone);
+                    clone = null;
+                });
+            }
+
+            public void criaClone(int x, int y, String text) {
+                clone = new Button(text);
+                clone.setStyle(clone.getStyle()+" -fx-background-color: #ff3333");
+                clone.setPrefHeight(40);
+                clone.setPrefWidth(40);
+                clone.setLayoutX(x);
+                clone.setLayoutY(y);
+                Platform.runLater(() -> {
+                    pane.getChildren().add(clone);
+                });
+            }
+
+            public void marcarPosDist(int pos) {
+                vet[pos].setStyle("-fx-background-color: #18ab18");
+            }
+
+            public void marcarAux(int pos) {
+                auxBt = new Button(vet[pos].getText());
+                estilizaAux(auxBt, pos);
+                int tam = (int)vet[pos].getLayoutY() - 150;
+                for (int i = (int)vet[pos].getLayoutY(); i > tam; i--) {
+                    auxBt.setLayoutY(i);
+                    sleep();
                 }
             }
 
-            public void trocaButton(int pos, int dist) {
+            public void estilizaAux(Button auxBt, int pos) {
+                auxBt.setStyle("-fx-background-color: #3385ff");
+                auxBt.setPrefHeight(40);
+                auxBt.setPrefWidth(40);
+                auxBt.setLayoutX(vet[pos].getLayoutX());
+                auxBt.setLayoutY(vet[pos].getLayoutY());
                 Platform.runLater(() -> {
-                    vet[pos].setStyle("-fx-background-color: #0a88b2");
-                    vet[pos - dist].setStyle("-fx-background-color: #0a88b2");
+                    pane.getChildren().remove(vet[pos]);
+                    pane.getChildren().add(auxBt);
                 });
             }
 
-            public void marcaPos(int i) {
-                Platform.runLater(() -> {
-                    vet[i].setStyle("-fx-background-color: #b31212");
-                });
-            }
-
-            public void marcaPosDist(int i) {
-                Platform.runLater(() -> {
-                    vet[i].setStyle("-fx-background-color: #fff033");
-                });
-            }
-
-            public void marcaButtonAux(Button i) {
-                Platform.runLater(() -> {
-                    i.setStyle("-fx-background-color: #73b312");
-                });
-            }
-
-            public void limparAux(int i) {
-                Platform.runLater(() -> {
-                    vet[i].setStyle("-fx-background-color: WHITE");
-                });
+            public void sleep() {
+                try {
+                    Thread.sleep(10);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
