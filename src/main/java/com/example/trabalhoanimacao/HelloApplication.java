@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
     private int TL, posAux;
     AnchorPane pane;
     private Button[] vet;
-    Button botao_inicio, auxBt, clone = null, dist, pos, gap;
+    Button botao_inicio, auxBt, clone = null, subClone;
     private Text[] indice;
 
     public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class HelloApplication extends Application {
             pane.getChildren().add(indice[i]);
         }
 
-        /*for (int i = 0; i < TL; i++) {
+        for (int i = 0; i < TL; i++) {
             double buttonX = 50 * (i + 1);
             vet[i] = new Button("" + aleatorio.nextInt(i, 30));
             vet[i].setMinWidth(40);
@@ -53,8 +53,8 @@ public class HelloApplication extends Application {
             vet[i].setLayoutX(buttonX);
             vet[i].setLayoutY(200);
             pane.getChildren().add(vet[i]);
-        }*/
-        double buttonX = 50 * (0 + 1);
+        }
+        /*double buttonX = 50 * (0 + 1);
         vet[0] = new Button("" + 10);
         vet[0].setMinWidth(40);
         vet[0].setMinHeight(40);
@@ -142,7 +142,7 @@ public class HelloApplication extends Application {
         vet[9].setFont(new Font(14));
         vet[9].setLayoutX(buttonX);
         vet[9].setLayoutY(200);
-        pane.getChildren().add(vet[9]);
+        pane.getChildren().add(vet[9]);*/
     }
 
     @Override
@@ -150,8 +150,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Pesquisa e Ordenacao");
         pane = new AnchorPane();
         pane.setStyle("-fx-background-color: #3d3d3f");
-        gerarBotoes(10);
-        TL = 10;
+        gerarBotoes(15);
+        TL = 15;
         botao_inicio = new Button();
         botao_inicio.setLayoutX(10);
         botao_inicio.setLayoutY(100);
@@ -245,20 +245,20 @@ public class HelloApplication extends Application {
                 if(clone!= null) {
                     tam = (int) clone.getLayoutX();
                     for (int i = (int) auxBt.getLayoutX(); i > tam; i--) {
-                        auxBt.setLayoutX(i);
+                        Platform.runLater(() -> auxBt.setLayoutX(auxBt.getLayoutX()-1));
                         sleep();
                     }
                     tam = (int) clone.getLayoutY();
+                    removeClone();
                     for (int i = (int) auxBt.getLayoutY(); i < tam; i++) {
-                        auxBt.setLayoutY(i);
+                        Platform.runLater(() -> auxBt.setLayoutY(auxBt.getLayoutY()+1));
                         sleep();
                     }
-                    removeClone();
                 }
                 else {
-                    tam = (int)auxBt.getLayoutY();
-                    for (int i = (int)auxBt.getLayoutY(); i < (int)vet[posAux].getLayoutY(); i++) {
-                        auxBt.setLayoutY(i);
+                    tam = (int)auxBt.getLayoutY()+50;
+                    for (int i = (int)auxBt.getLayoutY(); i < tam; i++) {
+                        Platform.runLater(() -> auxBt.setLayoutY(auxBt.getLayoutY()+1));
                         sleep();
                     }
                 }
@@ -275,18 +275,36 @@ public class HelloApplication extends Application {
                 int tam = (int)vet[posDist].getLayoutY();
                 int x = (int)vet[posDist].getLayoutX();
                 int y = (int)vet[posDist].getLayoutY();
+                int x2 = 0;
+                if(clone != null) {
+                    subClone = clone;
+                    x2 = (int) clone.getLayoutX();
+                }
                 criaClone(x, y, vet[posDist].getText());
                 for (int i = (int)vet[posDist].getLayoutY(); i > tam-80; i--) {
-                    vet[posDist].setLayoutY(i);
+                    Platform.runLater(() -> vet[posDist].setLayoutY(vet[posDist].getLayoutY()-1));
+                    //vet[posDist].setLayoutY(i);
                     sleep();
                 }
-                for (int i = (int)vet[posDist].getLayoutX(); i < (int)vet[pos].getLayoutX(); i++) {
-                    vet[posDist].setLayoutX(i);
+                // Se ja tem um clone, vai para a posicao do clone, se nao, vai para pos
+                if(flag) {
+                    tam = x2;
+                }
+                else {
+                    tam = (int)vet[pos].getLayoutX();
+                }
+                for (int i = (int)vet[posDist].getLayoutX(); i < tam; i++) {
+                    Platform.runLater(() -> vet[posDist].setLayoutX(vet[posDist].getLayoutX()+1));
+                    //vet[posDist].setLayoutX(i);
                     sleep();
                 }
-                tam = (int)vet[posDist].getLayoutY();
-                for (int i = (int)vet[posDist].getLayoutY(); i < tam+80; i++) {
-                    vet[posDist].setLayoutY(i);
+                tam = (int)vet[posDist].getLayoutY()+80;
+                if(flag) {
+                    removeSubClone();
+                }
+                for (int i = (int)vet[posDist].getLayoutY(); i < tam; i++) {
+                    Platform.runLater(() -> vet[posDist].setLayoutY(vet[posDist].getLayoutY()+1));
+                    //vet[posDist].setLayoutY(i);
                     sleep();
                 }
                 if(!flag) {
@@ -294,12 +312,17 @@ public class HelloApplication extends Application {
                     posAux = posDist;
                 }
                 else {
-                    Button aux = vet[posDist];
-                    vet[posDist] = vet[pos];
-                    vet[pos] = aux;
+                    vet[pos] = vet[posDist];
                     posAux = posDist;
                 }
                 return posAux;
+            }
+
+            public void removeSubClone() {
+                Platform.runLater(() -> {
+                    pane.getChildren().remove(subClone);
+                    subClone = null;
+                });
             }
 
             public void removeClone() {
@@ -330,7 +353,8 @@ public class HelloApplication extends Application {
                 estilizaAux(auxBt, pos);
                 int tam = (int)vet[pos].getLayoutY() - 150;
                 for (int i = (int)vet[pos].getLayoutY(); i > tam; i--) {
-                    auxBt.setLayoutY(i);
+                    Platform.runLater(() -> auxBt.setLayoutY(auxBt.getLayoutY()-1));
+                    //auxBt.setLayoutY(i);
                     sleep();
                 }
             }
@@ -349,7 +373,7 @@ public class HelloApplication extends Application {
 
             public void sleep() {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(7);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
