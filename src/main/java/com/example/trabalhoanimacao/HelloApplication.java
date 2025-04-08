@@ -48,7 +48,7 @@ public class HelloApplication extends Application {
             double textX = buttonX + (larguraBotao - textWidth) / 2;
 
             indice[i].setLayoutX(textX);
-            indice[i].setLayoutY(360);
+            indice[i].setLayoutY(320);
             pane.getChildren().add(indice[i]);
         }
 
@@ -64,15 +64,15 @@ public class HelloApplication extends Application {
             vet[i].setMinHeight(40);
             vet[i].setFont(new Font(14));
             vet[i].setLayoutX(buttonX);
-            vet[i].setLayoutY(300);
+            vet[i].setLayoutY(260);
             pane.getChildren().add(vet[i]);
         }
     }
 
     public void gerarEstiloPane(double larguraPane) {
         Text text = new Text("Arcesti Giglio Ricci - ShellSort");
+        text.setStyle("-fx-font-weight: 900; -fx-fill: #fff;");
         text.setFont(Font.font(20));
-        text.setStyle("-fx-fill: #fff");
 
         double larguraTexto = text.getLayoutBounds().getWidth();
 
@@ -85,9 +85,9 @@ public class HelloApplication extends Application {
     public void geraBotaoIni() {
         botao_inicio = new Button();
         botao_inicio.setLayoutX(10);
-        botao_inicio.setLayoutY(300);
+        botao_inicio.setLayoutY(260);
         botao_inicio.setText("Iniciar");
-        botao_inicio.setStyle("-fx-text-fill: #8d8b8b; -fx-background-color: #38dc6c;");
+        botao_inicio.setStyle("-fx-text-fill: #4a4a4d; -fx-background-color: #38dc6c; -fx-font-size: 14px; -fx-font-weight: 900");
         botao_inicio.setPrefHeight(40);
         botao_inicio.setOnAction(e -> {
             move_botoes();
@@ -146,7 +146,7 @@ public class HelloApplication extends Application {
 
             public void alinhaBotao() {
                 for (int i = 0; i < TL; i++) {
-                    vet[i].setLayoutY(300);
+                    vet[i].setLayoutY(260);
                 }
             }
 
@@ -301,7 +301,7 @@ public class HelloApplication extends Application {
 
             public void sleep() {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(8);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
