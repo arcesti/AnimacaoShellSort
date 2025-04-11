@@ -21,7 +21,7 @@ public class HelloApplication extends Application {
     AnchorPane pane;
     private Button[] vet;
     Button botao_inicio, auxBt, clone = null, subClone;
-    private Text[] indice;
+    private Text[] indice, codigo;
 
     public static void main(String[] args) {
         launch(args);
@@ -82,6 +82,37 @@ public class HelloApplication extends Application {
         pane.getChildren().add(text);
     }
 
+    public void adicionarLinha(String linha, int y, int i) {
+            codigo[i] = new Text(linha);
+            codigo[i].setStyle("-fx-fill: #F8F8F2;");
+            codigo[i].setFont(new Font(14));
+            codigo[i].setLayoutX(15);
+            codigo[i].setLayoutY(y);
+            pane.getChildren().add(codigo[i]);
+    }
+
+    public void geraCodigo() {
+        codigo = new Text[17];
+        int i = 0, j = 340;
+        adicionarLinha("public void shellSort() {", j+=25, i++);
+        adicionarLinha("|\tdist = 1;", j+=25, i++);
+        adicionarLinha("|\twhile(dist < TL)", j+=25, i++);
+        adicionarLinha("|\t\tdist = dist * 2;", j+=25, i++);
+        adicionarLinha("|\tdist = dist / 2;", j+=25, i++);
+        adicionarLinha("|\twhile(dist > 0) {", j+=25, i++);
+        adicionarLinha("|\t|\tfor(i = dist; i < TL; i++) {", j+=25, i++);
+        adicionarLinha("|\t|\t|\taux = vet[i];", j+=25, i++);
+        adicionarLinha("|\t|\t|\tpos = i;", j+=25, i++);
+        adicionarLinha("|\t|\t|\twhile(pos >= dist && aux < vet[pos - dist]) {", j+=25, i++);
+        adicionarLinha("|\t|\t|\t|\tvet[pos] = vet[pos - dist];", j+=25, i++);
+        adicionarLinha("|\t|\t|\t|\tpos = pos - dist;", j+=25, i++);
+        adicionarLinha("|\t|\t|\t}", j+=25, i++);
+        adicionarLinha("|\t|\t|\tvet[pos] = aux;", j+=25, i++);
+        adicionarLinha("|\t|\t}", j+=25, i++);
+        adicionarLinha("|\tdist = dist / 2;", j+=25, i++);
+        adicionarLinha("}", j+=25, i++);
+    }
+
     public void geraBotaoIni() {
         botao_inicio = new Button();
         botao_inicio.setLayoutX(10);
@@ -102,12 +133,26 @@ public class HelloApplication extends Application {
         pane = new AnchorPane();
         pane.setStyle("-fx-background-color: #4a4a4d");
         gerarBotoes(15, 1200);
+        geraCodigo();
         TL = 15;
         geraBotaoIni();
         Scene scene = new Scene(pane, 1200, 800);
         stage.setScene(scene);
         stage.show();
     }
+
+    private void grifarLinha(int linha) {
+        Platform.runLater(() -> {
+            codigo[linha - 1].setStyle("-fx-fill: #F8F8F2");
+            codigo[linha].setStyle("-fx-fill: #FF5555");
+        });
+    }
+    private void grifarLinhaSemDesm(int linha) {
+        Platform.runLater(() -> {
+            codigo[linha].setStyle("-fx-fill: #FF5555");
+        });
+    }
+
 
     public void move_botoes() {
         Task<Void> task = new Task<Void>() {
@@ -119,29 +164,59 @@ public class HelloApplication extends Application {
 
             public void shellSort() {
                 int dist = 1, aux, pos;
+                grifarLinha(1);
+                sleepLinha();
                 while (dist < TL) {
+                    grifarLinha(2);
+                    sleepLinha();
                     dist = dist * 2 + 1;
+                    grifarLinha(3);
+                    sleepLinha();
                 }
+
                 dist = dist / 2;
+                grifarLinha(4);
+
                 while(dist > 0) {
+                    grifarLinha(5);
+                    sleepLinha();
                     for (int i = dist; i < TL; i++) {
+                        grifarLinha(6);
+                        sleepLinha();
+
                         aux = parseInt(vet[i].getText());
                         pos = i;
                         posAux = i;
+                        grifarLinha(7);
                         marcarAux(pos);
+                        grifarLinha(8);
+                        sleepLinha();
+                        grifarLinha(9);
                         boolean flag = false;
                         while(pos >= dist && aux < parseInt(vet[pos-dist].getText())) {
+                                grifarLinha(9);
+                                sleepLinha();
                                 marcarPosDist(pos-dist);
+                                grifarLinhaSemDesm(10);
                                 posAux = movimentarParaPos(pos-dist, pos, flag);
                                 desmarcaPosDist(pos-dist);
                                 pos = pos-dist;
                                 flag = true;
                         }
+                        limpaLinha(10);
+                        limpaLinha(9);
+                        grifarLinha(13);
                         colocaAux(posAux);
+                        grifarLinha(14);
+                        limpaLinha(14);
                         alinhaBotao();
                     }
                     dist = dist/2;
                 }
+            }
+
+            public void limpaLinha(int i) {
+                Platform.runLater(() -> codigo[i].setStyle("-fx-fill: #F8F8F2"));
             }
 
             public void alinhaBotao() {
@@ -297,6 +372,15 @@ public class HelloApplication extends Application {
                     pane.getChildren().remove(vet[pos]);
                     pane.getChildren().add(auxBt);
                 });
+            }
+
+            public void sleepLinha() {
+                try {
+                    Thread.sleep(300);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             public void sleep() {
