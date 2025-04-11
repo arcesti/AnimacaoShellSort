@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     private int TL, posAux;
     AnchorPane pane;
     private Button[] vet;
-    Button botao_inicio, auxBt, clone = null, subClone;
+    Button botao_inicio, auxBt, clone = null, subClone, tlBt, distBt, auxBtPrint, btPos, btPosDist;
     private Text[] indice, codigo;
 
     public static void main(String[] args) {
@@ -92,7 +92,7 @@ public class HelloApplication extends Application {
     }
 
     public void geraCodigo() {
-        codigo = new Text[17];
+        codigo = new Text[18];
         int i = 0, j = 340;
         adicionarLinha("public void shellSort() {", j+=25, i++);
         adicionarLinha("|\tdist = 1;", j+=25, i++);
@@ -109,6 +109,7 @@ public class HelloApplication extends Application {
         adicionarLinha("|\t|\t|\t}", j+=25, i++);
         adicionarLinha("|\t|\t|\tvet[pos] = aux;", j+=25, i++);
         adicionarLinha("|\t|\t}", j+=25, i++);
+        adicionarLinha("|\t}", j+=25, i++);
         adicionarLinha("|\tdist = dist / 2;", j+=25, i++);
         adicionarLinha("}", j+=25, i++);
     }
@@ -127,14 +128,32 @@ public class HelloApplication extends Application {
         pane.getChildren().add(botao_inicio);
     }
 
+    public void geraVariaveis() {
+            int x = 500, y = 420;
+            tlBt = new Button(); distBt = new Button(); auxBtPrint = new Button(); btPosDist = new Button(); btPos = new Button();
+            tlBt.setText("TL: " + TL); tlBt.setPrefHeight(40); tlBt.setLayoutY(y); tlBt.setLayoutX(x);  tlBt.setPrefWidth(120);
+            y+=50;
+            distBt.setText("Dist: "); distBt.setPrefHeight(40); distBt.setLayoutY(y); distBt.setLayoutX(x); distBt.setPrefWidth(120);
+            y+=50;
+            auxBtPrint.setText("Aux: "); auxBtPrint.setPrefHeight(40); auxBtPrint.setLayoutY(y); auxBtPrint.setLayoutX(x); auxBtPrint.setPrefWidth(120);
+            y+=50;
+            btPos.setText("Pos: "); btPos.setPrefHeight(40); btPos.setLayoutY(y); btPos.setLayoutX(x); btPos.setPrefWidth(120);
+            pane.getChildren().add(tlBt);
+            pane.getChildren().add(distBt);
+            pane.getChildren().add(auxBtPrint);
+            pane.getChildren().add(btPosDist);
+            pane.getChildren().add(btPos);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Pesquisa e Ordenacao: ShellSort");
         pane = new AnchorPane();
+        TL = 15;
         pane.setStyle("-fx-background-color: #4a4a4d");
         gerarBotoes(15, 1200);
         geraCodigo();
-        TL = 15;
+        geraVariaveis();
         geraBotaoIni();
         Scene scene = new Scene(pane, 1200, 800);
         stage.setScene(scene);
@@ -153,6 +172,23 @@ public class HelloApplication extends Application {
         });
     }
 
+    public void atualizaDist(int dist) {
+        Platform.runLater(() -> {
+            distBt.setText("Dist: " + dist);
+        });
+    }
+
+    public void atualizaPos(int pos) {
+        Platform.runLater(() -> {
+            btPos.setText("Pos: " + pos);
+        });
+    }
+
+    public void atualizaAux(int aux) {
+        Platform.runLater(() -> {
+            auxBtPrint.setText("Aux: " + aux);
+        });
+    }
 
     public void move_botoes() {
         Task<Void> task = new Task<Void>() {
@@ -166,17 +202,23 @@ public class HelloApplication extends Application {
                 int dist = 1, aux, pos;
                 grifarLinha(1);
                 sleepLinha();
+                grifarLinha(2);
+                sleepLinha();
                 while (dist < TL) {
-                    grifarLinha(2);
-                    sleepLinha();
                     dist = dist * 2 + 1;
                     grifarLinha(3);
+                    grifarLinha(2);
+                    atualizaDist(dist);
+                    sleepLinha();
+                    limpaLinha(3);
                     sleepLinha();
                 }
+                limpaLinha(2);
 
                 dist = dist / 2;
+                atualizaDist(dist);
                 grifarLinha(4);
-
+                sleepLinha();
                 while(dist > 0) {
                     grifarLinha(5);
                     sleepLinha();
@@ -186,8 +228,10 @@ public class HelloApplication extends Application {
 
                         aux = parseInt(vet[i].getText());
                         pos = i;
+                        atualizaPos(pos);
                         posAux = i;
                         grifarLinha(7);
+                        atualizaAux(Integer.parseInt(vet[pos].getText()));
                         marcarAux(pos);
                         grifarLinha(8);
                         sleepLinha();
@@ -201,9 +245,15 @@ public class HelloApplication extends Application {
                                 posAux = movimentarParaPos(pos-dist, pos, flag);
                                 desmarcaPosDist(pos-dist);
                                 pos = pos-dist;
+                                atualizaPos(pos);
+                                grifarLinha(11);
+                                sleepLinha();
+                                limpaLinha(11);
                                 flag = true;
                         }
                         limpaLinha(10);
+                        grifarLinha(9);
+                        sleepLinha();
                         limpaLinha(9);
                         grifarLinha(13);
                         colocaAux(posAux);
@@ -212,6 +262,10 @@ public class HelloApplication extends Application {
                         alinhaBotao();
                     }
                     dist = dist/2;
+                    grifarLinha(16);
+                    sleepLinha();
+                    atualizaDist(dist);
+                    limpaLinha(16);
                 }
             }
 
@@ -376,7 +430,7 @@ public class HelloApplication extends Application {
 
             public void sleepLinha() {
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(400);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
@@ -385,7 +439,7 @@ public class HelloApplication extends Application {
 
             public void sleep() {
                 try {
-                    Thread.sleep(8);
+                    Thread.sleep(10);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
